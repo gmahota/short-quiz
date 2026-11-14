@@ -1,6 +1,6 @@
-# Uma Geração Marcada — LIVE
+# short-quiz
 
-Uma nuvem de respostas em tempo real para sessões com adolescentes. **Sem base de dados, registo, login ou histórico.**
+Uma nuvem de respostas em tempo real para eventos, aulas e apresentações. **Sem base de dados, registo, login ou histórico.**
 
 ## Funcionalidades
 
@@ -43,3 +43,17 @@ Não recolhe nomes, e-mails nem contas. Um identificador aleatório temporário 
 - HTML/CSS/JavaScript sem framework
 - `qrcode` (única dependência)
 - Estado exclusivamente em memória (`Map`)
+
+## Dois ecrãs
+
+- **Admin** (`/admin/CODE/TOKEN`): pergunta, QR, pré-visualização, moderação, limpar respostas e reset.
+- **Apresentação** (`/screen/CODE`): abre numa segunda janela e ocupa a totalidade do viewport; apenas pergunta e nuvem em destaque. O QR Code pode ser ocultado e mostrado.
+- Num PC com projector: clica em **Abrir ecrã de respostas**, arrasta a nova janela para o projector e clica em **Ecrã inteiro**. O painel de administração permanece na primeira janela.
+- A apresentação muda automaticamente quando o administrador publica uma nova pergunta.
+
+## Dois ecrãs
+
+- **Admin** (`/admin/CODE/TOKEN`): pergunta, QR, pré-visualização, moderação, limpar respostas e reset.
+- **Apresentação** (`/screen/CODE`): abre numa segunda janela e ocupa a totalidade do viewport; apenas pergunta e nuvem em destaque. O QR Code pode ser ocultado e mostrado.
+- Num PC com projector: clica em **Abrir ecrã de respostas**, arrasta a nova janela para o projector e clica em **Ecrã inteiro**. O painel de administração permanece na primeira janela.
+- A apresentação muda automaticamente quando o administrador publica uma nova pergunta.

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: geracao-marcada-live
+    name: short-quiz
     runtime: node
     plan: free
     region: frankfurt

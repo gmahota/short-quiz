@@ -221,4 +221,4 @@ setInterval(() => {
     else if (room.rate.size > 1000) room.rate.clear();
   }
 }, 60_000).unref();
-server.listen(PORT, '0.0.0.0', () => console.log(`Uma Geração Marcada LIVE on :${PORT}`));
+server.listen(PORT, '0.0.0.0', () => console.log(`short-quiz LIVE on :${PORT}`));

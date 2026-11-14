@@ -56,3 +56,89 @@ input:focus,textarea:focus { border-color:var(--lime) } .input-row { display:fle
 .screen .screen-qr { width:clamp(100px,12vw,190px); height:auto; background:white; border:7px solid white; border-radius:12px; }
 .screen .screen-bottom-text { display:grid; gap:10px; }
 @media(max-width:760px) { .screen .screen-qr { width:98px; } .screen .screen-bottom-text { max-width:55%; } .screen .screen-bottom-right { gap:9px; } }
+
+/* short-quiz · apresentação independente para projector, sem painéis laterais */
+.brand-icon {font-size:13px;letter-spacing:-.025em}
+.screen {
+  position:relative; width:100%; height:100vh; height:100dvh; min-height:0;
+  padding:clamp(10px,1.5vw,28px); overflow:hidden; display:flex; flex-direction:column;
+  background:radial-gradient(ellipse at 52% 48%,#192b38 0%,#101b2f 42%,#090d1d 90%);
+}
+.screen .screen-meta {display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;gap:15px;z-index:3;}
+.screen .brand {font-size:clamp(12px,1.04vw,17px)}
+.screen .brand-icon {width:35px;height:35px}
+.screen-meta-actions {display:flex;align-items:center;gap:13px}
+.screen-status {display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#b6c8da}
+.screen-action {background:#1d2a40aa;border:1px solid #54607870;border-radius:9px;color:#deecff;font-weight:700;font-size:12px;padding:9px 12px}
+.screen-action:hover,.screen-qr-toggle:hover {background:#314563}
+.screen .presentation-content {display:flex;flex-direction:column;flex:1;min-height:0;width:100%;}
+.screen-prompt {flex:0 0 auto;display:flex;align-items:center;flex-direction:column;justify-content:center;text-align:center;padding:clamp(12px,2.4vh,30px) 0 0;}
+.screen-kicker {font-size:clamp(11px,1.05vw,14px);font-weight:900;letter-spacing:.21em;color:#a5ff73}
+.screen .question {margin:clamp(7px,1.3vh,16px) 0 clamp(5px,1vh,12px);max-width:100%;font-size:clamp(31px,4vw,72px);letter-spacing:-.045em;line-height:1.1;font-weight:900;overflow-wrap:anywhere;text-wrap:balance}
+.screen .cloud-shell {padding:clamp(10px,1.5vw,25px);margin:0;width:100%;height:auto;min-height:0;flex:1;border:0;background:transparent;display:flex;align-items:center;justify-content:center;}
+.screen .cloud {width:100%;height:100%;min-height:0;max-height:100%;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;column-gap:clamp(12px,2vw,37px);row-gap:clamp(5px,1.2vh,17px);}
+.screen .cloud-term {line-height:1.07;font-weight:760;white-space:normal;overflow-wrap:anywhere;word-break:normal;text-align:center;max-width:100%;padding:3px 7px;}
+.screen .cloud-term.leader {color:#a6ff6a;text-shadow:0 0 28px #8aff6a50;font-weight:950}
+.screen .cloud-term .count {font-size:clamp(11px,1vw,18px);font-weight:750;color:#b2c1d1;vertical-align:super;margin-left:5px}
+.screen .empty {font-size:clamp(18px,2.3vw,32px);text-align:center}
+.screen-count {position:absolute;left:clamp(13px,2.4vw,42px);bottom:clamp(14px,2vh,30px);z-index:5;background:#0b1527da;border:1px solid #42526a70;border-radius:999px;padding:11px 17px;font-size:clamp(12px,1.05vw,17px);font-weight:800;color:#deeefa}
+.presentation-join {position:absolute;z-index:5;bottom:clamp(12px,2vh,28px);right:clamp(14px,2.4vw,42px);display:flex;align-items:center;gap:13px;border-radius:15px;padding:9px;background:#0b1527eb;border:1px solid #42526a70;box-shadow:0 8px 45px #0008}
+.presentation-join[hidden] {display:none}
+.presentation-join img {width:clamp(78px,9vw,126px);height:auto;display:block;background:white;padding:5px;border-radius:9px}
+.presentation-join-label {display:grid;gap:3px;color:#bdd0e2;font-size:clamp(11px,.9vw,14px);}
+.presentation-join-label strong {color:#b9ff59;letter-spacing:.12em;font-size:clamp(15px,1.3vw,23px)}
+.screen-qr-toggle {position:absolute;bottom:clamp(13px,2vh,30px);right:clamp(13px,2.4vw,42px);z-index:6;transform:translateY(-100%) translateY(-14px);border:1px solid #42526a70;background:#1d2a40cc;color:#e0ecfb;border-radius:8px;padding:7px 11px;font-size:12px;cursor:pointer}
+@media(max-width:760px) {
+  .screen-meta-actions .screen-status {display:none}
+  .screen-action {padding:7px 9px}
+  .screen .question {font-size:clamp(26px,6vw,45px)}
+  .presentation-join-label {display:none}
+  .presentation-join img {width:72px}
+  .screen .cloud-shell {padding:7px}
+  .screen .cloud {column-gap:10px;row-gap:8px}
+  .screen-count {padding:7px 11px}
+  .screen-qr-toggle {font-size:10px;padding:5px 7px}
+}
+
+/* short-quiz · apresentação independente para projector, sem painéis laterais */
+.brand-icon {font-size:13px;letter-spacing:-.025em}
+.screen {
+  position:relative; width:100%; height:100vh; height:100dvh; min-height:0;
+  padding:clamp(10px,1.5vw,28px); overflow:hidden; display:flex; flex-direction:column;
+  background:radial-gradient(ellipse at 52% 48%,#192b38 0%,#101b2f 42%,#090d1d 90%);
+}
+.screen .screen-meta {display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;gap:15px;z-index:3;}
+.screen .brand {font-size:clamp(12px,1.04vw,17px)}
+.screen .brand-icon {width:35px;height:35px}
+.screen-meta-actions {display:flex;align-items:center;gap:13px}
+.screen-status {display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#b6c8da}
+.screen-action {background:#1d2a40aa;border:1px solid #54607870;border-radius:9px;color:#deecff;font-weight:700;font-size:12px;padding:9px 12px}
+.screen-action:hover,.screen-qr-toggle:hover {background:#314563}
+.screen .presentation-content {display:flex;flex-direction:column;flex:1;min-height:0;width:100%;}
+.screen-prompt {flex:0 0 auto;display:flex;align-items:center;flex-direction:column;justify-content:center;text-align:center;padding:clamp(12px,2.4vh,30px) 0 0;}
+.screen-kicker {font-size:clamp(11px,1.05vw,14px);font-weight:900;letter-spacing:.21em;color:#a5ff73}
+.screen .question {margin:clamp(7px,1.3vh,16px) 0 clamp(5px,1vh,12px);max-width:100%;font-size:clamp(31px,4vw,72px);letter-spacing:-.045em;line-height:1.1;font-weight:900;overflow-wrap:anywhere;text-wrap:balance}
+.screen .cloud-shell {padding:clamp(10px,1.5vw,25px);margin:0;width:100%;height:auto;min-height:0;flex:1;border:0;background:transparent;display:flex;align-items:center;justify-content:center;}
+.screen .cloud {width:100%;height:100%;min-height:0;max-height:100%;overflow:hidden;display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;column-gap:clamp(12px,2vw,37px);row-gap:clamp(5px,1.2vh,17px);}
+.screen .cloud-term {line-height:1.07;font-weight:760;white-space:normal;overflow-wrap:anywhere;word-break:normal;text-align:center;max-width:100%;padding:3px 7px;}
+.screen .cloud-term.leader {color:#a6ff6a;text-shadow:0 0 28px #8aff6a50;font-weight:950}
+.screen .cloud-term .count {font-size:clamp(11px,1vw,18px);font-weight:750;color:#b2c1d1;vertical-align:super;margin-left:5px}
+.screen .empty {font-size:clamp(18px,2.3vw,32px);text-align:center}
+.screen-count {position:absolute;left:clamp(13px,2.4vw,42px);bottom:clamp(14px,2vh,30px);z-index:5;background:#0b1527da;border:1px solid #42526a70;border-radius:999px;padding:11px 17px;font-size:clamp(12px,1.05vw,17px);font-weight:800;color:#deeefa}
+.presentation-join {position:absolute;z-index:5;bottom:clamp(12px,2vh,28px);right:clamp(14px,2.4vw,42px);display:flex;align-items:center;gap:13px;border-radius:15px;padding:9px;background:#0b1527eb;border:1px solid #42526a70;box-shadow:0 8px 45px #0008}
+.presentation-join[hidden] {display:none}
+.presentation-join img {width:clamp(78px,9vw,126px);height:auto;display:block;background:white;padding:5px;border-radius:9px}
+.presentation-join-label {display:grid;gap:3px;color:#bdd0e2;font-size:clamp(11px,.9vw,14px);}
+.presentation-join-label strong {color:#b9ff59;letter-spacing:.12em;font-size:clamp(15px,1.3vw,23px)}
+.screen-qr-toggle {position:absolute;bottom:clamp(13px,2vh,30px);right:clamp(13px,2.4vw,42px);z-index:6;transform:translateY(-100%) translateY(-14px);border:1px solid #42526a70;background:#1d2a40cc;color:#e0ecfb;border-radius:8px;padding:7px 11px;font-size:12px;cursor:pointer}
+@media(max-width:760px) {
+  .screen-meta-actions .screen-status {display:none}
+  .screen-action {padding:7px 9px}
+  .screen .question {font-size:clamp(26px,6vw,45px)}
+  .presentation-join-label {display:none}
+  .presentation-join img {width:72px}
+  .screen .cloud-shell {padding:7px}
+  .screen .cloud {column-gap:10px;row-gap:8px}
+  .screen-count {padding:7px 11px}
+  .screen-qr-toggle {font-size:10px;padding:5px 7px}
+}

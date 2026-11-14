@@ -7,7 +7,7 @@
   const token = path[2] || '';
   const base = code ? `/api/rooms/${code}` : '';
   const safe = (s) => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const brand = '<span class="brand"><span class="brand-icon">67</span> UMA GERAÇÃO MARCADA <span class="kicker">LIVE</span></span>';
+  const brand = '<span class="brand"><span class="brand-icon">SQ</span> <span>short-quiz</span> <span class="kicker">LIVE</span></span>';
   let latest = null;
   let stream = null;
   let lastVersion = null;
@@ -59,27 +59,35 @@
     if (!snapshot.answers.length) {
       const empty = document.createElement('div');
       empty.className = 'empty';
-      empty.textContent = snapshot.question ? 'À espera da primeira resposta…' : 'Publica uma pergunta para começar.';
-      target.appendChild(empty); return;
+      empty.textContent = snapshot.question ? 'À espera das respostas…' : 'A próxima pergunta aparece aqui.';
+      target.appendChild(empty);
+      return;
     }
     const max = snapshot.answers[0].count;
+    const numberOfWords = snapshot.answers.length;
+    // A apresentação adapta a escala à quantidade de respostas e ao ecrã.
+    // O painel de controlo mantém uma nuvem pequena como pré-visualização.
+    const viewportScale = Math.min(window.innerWidth / 1440, window.innerHeight / 900);
+    const largest = isScreen
+      ? Math.max(48, Math.min(185, (198 / Math.pow(numberOfWords, 0.34)) * Math.max(0.72, Math.min(viewportScale, 1.2))))
+      : 49;
+    const smallest = isScreen ? 24 : 17;
     for (const answer of snapshot.answers) {
       const word = document.createElement('span');
       word.className = 'cloud-term' + (answer.count === max ? ' leader' : '');
       const portion = answer.count / max;
-      const min = isScreen ? 23 : 17;
-      const spread = isScreen ? 55 : 32;
-      word.style.fontSize = `${Math.round(min + spread * Math.pow(portion, 0.88))}px`;
+      word.style.fontSize = `${Math.round(smallest + (largest - smallest) * Math.pow(portion, 0.75))}px`;
       word.append(document.createTextNode(answer.text));
       const count = document.createElement('span');
-      count.className = 'count'; count.textContent = `×${answer.count}`;
+      count.className = 'count';
+      count.textContent = `×${answer.count}`;
       word.append(count);
       target.appendChild(word);
     }
   }
   function update(snapshot) {
     const question = el('current-question');
-    if (question) question.textContent = snapshot.question || (mode === 'screen' ? 'Uma geração marcada. Qual é a tua resposta?' : 'Nenhuma pergunta publicada');
+    if (question) question.textContent = snapshot.question || (mode === 'screen' ? 'À espera da pergunta…' : 'Nenhuma pergunta publicada');
     const total = el('total-count');
     if (total) total.textContent = `${snapshot.total} ${snapshot.total === 1 ? 'resposta' : 'respostas'}`;
     const cloud = el('cloud');
@@ -118,7 +126,7 @@
   }
   function renderHome() {
     app.innerHTML = `<div class="app"><header class="top">${brand}<span class="status"><span class="dot"></span> Sem base de dados</span></header>
-      <section class="hero"><div class="kicker">PALAVRAS EM DIRECTO</div><h1 class="huge">Uma pergunta.<br><span>Muitas vozes.</span></h1>
+      <section class="hero"><div class="kicker">PERGUNTAS E RESPOSTAS EM DIRECTO</div><h1 class="huge">Uma pergunta.<br><span>Todas as respostas.</span></h1>
       <p class="subtitle">Cria uma pergunta, partilha o QR Code e vê as respostas aparecerem no ecrã. As mais repetidas crescem e ficam verdes. Tudo em tempo real, sem contas e sem guardar dados.</p>
       <div class="btn-row"><button id="create" class="btn">+ Criar uma sala</button></div><p id="notice" class="notice"></p></section>
       <div class="card"><div class="kicker">COMO FUNCIONA</div><p>1 · Escreves a pergunta &nbsp; → &nbsp; 2 · Partilhas o QR Code &nbsp; → &nbsp; 3 · Projectas a nuvem de respostas &nbsp; → &nbsp; 4 · Fazes reset quando terminares.</p><hr class="rule"><form id="join-by-code"><label for="room-code">Tens um código de sala?</label><div class="input-row"><input id="room-code" maxlength="6" autocomplete="off" placeholder="Ex.: A7K9QM" aria-label="Código da sala"><button class="btn btn-secondary" type="submit">Entrar</button></div></form></div>
@@ -134,15 +142,15 @@
     const joinUrl = `${location.origin}/join/${code}`;
     const screenUrl = `${location.origin}/screen/${code}`;
     app.innerHTML = `<div class="app"><header class="top">${brand}<span class="status"><span class="dot"></span><span id="connection">A ligar…</span></span></header>
-      <div class="top" style="align-items:end"><div><div class="kicker">PAINEL DO ADMINISTRADOR</div><h1 style="font-size:clamp(29px,5vw,44px);margin:9px 0 0">Sala <span class="code">${code}</span></h1></div><a class="btn btn-secondary btn-min" href="${screenUrl}" target="_blank" rel="noreferrer">◩ Abrir ecrã de projecção</a></div>
+      <div class="top" style="align-items:end"><div><div class="kicker">PAINEL DO ADMINISTRADOR</div><h1 style="font-size:clamp(29px,5vw,44px);margin:9px 0 0">Sala <span class="code">${code}</span></h1></div><a class="btn btn-secondary btn-min" href="${screenUrl}" target="_blank" rel="noreferrer">◩ Abrir apresentação numa 2.ª janela</a></div>
       <div class="panel-grid"><div class="column"><section class="card"><h2>01 · Faz a pergunta</h2><p>Uma pergunta de cada vez. Publicar outra pergunta apaga as respostas anteriores.</p>
-      <form id="question-form"><label for="question">Pergunta para os adolescentes</label><textarea id="question" maxlength="150" placeholder="Ex.: Que palavra descreve a tua identidade?" required></textarea><div class="btn-row"><button type="submit" class="btn">Publicar pergunta →</button></div></form>
+      <form id="question-form"><label for="question">Pergunta para os participantes</label><textarea id="question" maxlength="150" placeholder="Ex.: Que palavra descreve a tua identidade?" required></textarea><div class="btn-row"><button type="submit" class="btn">Publicar pergunta →</button></div></form>
       <p id="notice" class="notice"></p></section>
       <section class="card"><div class="top" style="margin-bottom:15px"><div><h2>Nuvem de respostas</h2><span id="total-count" class="live-count">0 respostas</span></div><span class="status"><span class="dot"></span> AO VIVO</span></div><h2 id="current-question" style="margin:0 0 14px">Nenhuma pergunta publicada</h2><div class="cloud-shell"><div class="cloud" id="cloud"><span class="empty">À espera…</span></div></div></section>
       <section class="card"><h2>Moderar respostas</h2><p>Elimina respostas impróprias. Ao eliminar uma palavra ou frase, todas as respostas iguais desaparecem e ficam bloqueadas até à próxima pergunta.</p><div id="answer-list" class="answer-list"></div></section></div>
       <aside class="column"><section class="card"><h2>02 · Partilha com a sala</h2><p>Mostra este QR Code. Cada participante responde do próprio telemóvel.</p><img class="qr" src="${base}/qr" alt="Código QR para entrar na sala"><div class="small muted">CÓDIGO DA SALA</div><div class="code">${code}</div><label for="join-link" style="margin-top:14px">Link para responder</label><div class="input-row"><input id="join-link" value="${safe(joinUrl)}" readonly><button id="copy-link" class="btn btn-secondary btn-min">Copiar</button></div><div class="btn-row"><a href="${joinUrl}" target="_blank" rel="noreferrer" class="btn btn-secondary btn-min">Testar no telemóvel ↗</a></div></section>
       <section class="card"><h2>03 · Controlos da sessão</h2><p>Podes limpar as respostas sem apagar a pergunta ou encerrar completamente a sala.</p><div class="btn-row"><button id="clear" class="btn btn-secondary btn-min">Limpar respostas</button><button id="reset" class="btn btn-danger btn-min">Reset total</button></div><hr class="rule"><p class="small">⚠ Reset total: elimina a pergunta, as respostas e a própria sala da memória. O QR Code deixa de funcionar.</p></section>
-      <section class="card"><h2>Para projectar</h2><p>Abre o ecrã de projecção na TV ou computador e carrega em F11 para ocupar todo o ecrã.</p><a href="${screenUrl}" target="_blank" rel="noreferrer" class="btn btn-secondary btn-block">Abrir apresentação ↗</a></section></aside></div>
+      <section class="card"><h2>Apresentação no 2.º ecrã</h2><p>Abre a apresentação numa segunda janela, arrasta-a para o projector e usa o botão «Ecrã inteiro». O painel de controlo fica neste ecrã.</p><a href="${screenUrl}" target="_blank" rel="noreferrer" class="btn btn-secondary btn-block">Abrir ecrã de respostas ↗</a></section></aside></div>
       <p class="footer">Não feches nem partilhes o endereço de administrador: contém a chave de controlo. O link e o QR Code dos participantes são diferentes.</p></div>`;
     el('question-form').onsubmit = async e => {
       e.preventDefault(); const question = el('question').value.trim();
@@ -180,10 +188,37 @@
     };
   }
   function renderScreen() {
-    app.innerHTML = `<div class="screen"><header class="top">${brand}<span class="status"><span class="dot"></span><span id="connection">A ligar…</span></span></header>
-      <main><div class="kicker">UMA GERAÇÃO MARCADA · GÁLATAS 6:7</div><h1 id="current-question" class="question">À espera da pergunta…</h1>
-      <div class="cloud-shell"><div id="cloud" class="cloud"><span class="empty">As respostas aparecem aqui em directo.</span></div></div></main>
-      <footer class="bottom"><div class="screen-bottom-text"><div class="kicker">PARTICIPA AGORA</div><div>Aponta a câmara do telemóvel para o QR Code</div></div><div class="screen-bottom-right"><div><span class="screen-code">${code}</span><div id="total-count">0 respostas</div></div><img class="screen-qr" alt="QR Code para responder" src="${base}/qr"></div></footer></div>`;
+    app.innerHTML = `<div class="screen">
+      <header class="screen-meta">
+        ${brand}
+        <div class="screen-meta-actions"><span class="screen-status"><span class="dot"></span><span id="connection">A ligar…</span></span><button class="screen-action" id="fullscreen" type="button" aria-label="Apresentar em ecrã inteiro">⛶ Ecrã inteiro</button></div>
+      </header>
+      <section class="presentation-content">
+        <div class="screen-prompt"><span class="screen-kicker">PERGUNTA EM DIRECTO</span><h1 id="current-question" class="question">À espera da pergunta…</h1></div>
+        <div class="cloud-shell"><div id="cloud" class="cloud"><span class="empty">As respostas vão aparecer aqui.</span></div></div>
+      </section>
+      <div class="screen-count" id="total-count">0 respostas</div>
+      <div id="presentation-join" class="presentation-join">
+        <img class="screen-qr" alt="QR Code para participar" src="${base}/qr">
+        <div class="presentation-join-label"><strong>${code}</strong><span>Entra e responde</span></div>
+      </div>
+      <button id="qr-toggle" class="screen-qr-toggle" type="button">Ocultar QR</button>
+    </div>`;
+    const toggle = el('qr-toggle');
+    const qr = el('presentation-join');
+    toggle.onclick = () => {
+      qr.hidden = !qr.hidden;
+      toggle.textContent = qr.hidden ? 'Mostrar QR' : 'Ocultar QR';
+    };
+    el('fullscreen').onclick = async () => {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await document.documentElement.requestFullscreen();
+      } catch { el('fullscreen').textContent = 'Usa F11'; }
+    };
+    window.addEventListener('resize', () => {
+      if (latest && el('cloud')) makeCloud(el('cloud'), latest, true);
+    });
   }
   if (mode === 'home') renderHome();
   else if (mode === 'admin' && /^[a-f0-9]{64}$/.test(token)) { renderAdmin(); setupStream(); }
